@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" project_name="Project">
+    <include path="dev_rm.xml"/>
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Condition ID="IsGameStatus">
+            <input_port name="max_remain_time" default="420" type="int">Maximum remaining time (s)</input_port>
+            <input_port name="min_remain_time" default="0" type="int">Minimum remaining time (s)</input_port>
+            <input_port name="expected_game_progress" default="4" type="int">Expected game progress stage</input_port>
+            <input_port name="key_port" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;"/>
+        </Condition>
+        <Action ID="SendNav2Goal">
+            <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
+            <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
+            <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
+            <input_port name="action_name" default="navigate_to_pose" type="std::string">Action name</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>

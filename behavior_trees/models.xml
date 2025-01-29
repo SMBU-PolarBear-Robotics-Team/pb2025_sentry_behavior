@@ -1,0 +1,16 @@
+<root BTCPP_format="4">
+    <TreeNodesModel>
+        <Condition ID="IsGameStatus">
+            <input_port name="max_remain_time" type="int" default="420">Maximum remaining time (s)</input_port>
+            <input_port name="min_remain_time" type="int" default="0">Minimum remaining time (s)</input_port>
+            <input_port name="expected_game_progress" type="int" default="4">Expected game progress stage</input_port>
+            <input_port name="key_port" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;"/>
+        </Condition>
+        <Action ID="SendNav2Goal">
+            <input_port name="goal_x" type="float" default="0.000000">Goal x coordinate</input_port>
+            <input_port name="goal_y" type="float" default="0.000000">Goal y coordinate</input_port>
+            <input_port name="goal_yaw" type="float" default="0.000000">Goal orientation (yaw)</input_port>
+            <input_port name="action_name" type="std::string" default="">Action server name</input_port>
+        </Action>
+    </TreeNodesModel>
+</root>

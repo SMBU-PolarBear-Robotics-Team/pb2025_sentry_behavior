@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="dev_rm">
+    <Sequence>
+      <SendNav2Goal goal_yaw="0.000000"
+                    goal_y="0.000000"
+                    goal_x="0.000000"
+                    action_name="navigate_to_pose"/>
+    </Sequence>
+  </BehaviorTree>
+</root>

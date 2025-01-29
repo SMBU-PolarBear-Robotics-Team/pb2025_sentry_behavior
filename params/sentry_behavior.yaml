@@ -1,0 +1,13 @@
+pb2025_sentry_behavior:
+  ros__parameters:
+    use_sim_time: true
+    action_name: pb2025_sentry_behavior         # Optional
+    tick_frequency: 100                         # Optional (defaults to 100 Hz)
+    groot2_port: 1667                           # Optional (defaults to 1667)
+    ros_plugins_timeout: 1000                   # Optional (defaults 1000 ms)
+
+    plugins:
+      - pb2025_sentry_behavior/bt_plugins
+
+    behavior_trees:
+      - pb2025_sentry_behavior/behavior_trees
