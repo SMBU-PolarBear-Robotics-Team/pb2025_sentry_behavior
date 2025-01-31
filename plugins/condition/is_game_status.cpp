@@ -52,7 +52,8 @@ BT::NodeStatus IsGameStatusCondition::checkGameStart()
 BT::PortsList IsGameStatusCondition::providedPorts()
 {
   return {
-    BT::InputPort<pb_rm_interfaces::msg::GameStatus>("key_port"),
+    BT::InputPort<pb_rm_interfaces::msg::GameStatus>(
+      "key_port", "{@game_status}", "GameStatus port on blackboard"),
     BT::InputPort<int>("expected_game_progress", 4, "Expected game progress stage"),
     BT::InputPort<int>("min_remain_time", 0, "Minimum remaining time (s)"),
     BT::InputPort<int>("max_remain_time", 420, "Maximum remaining time (s)"),

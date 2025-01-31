@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4">
   <BehaviorTree ID="dev_rm">
-    <Sequence>
-      <SendNav2Goal goal_yaw="0.000000"
-                    goal_y="0.000000"
-                    goal_x="0.000000"
+    <KeepRunningUntilFailure>
+      <SendNav2Goal goal_x="1.0"
+                    goal_y="0.0"
+                    goal_yaw="0.0"
                     action_name="navigate_to_pose"/>
-    </Sequence>
+    </KeepRunningUntilFailure>
   </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="SendNav2Goal">
+      <input_port name="goal_x"
+                  default="0.000000"
+                  type="float">Goal x coordinate</input_port>
+      <input_port name="goal_y"
+                  default="0.000000"
+                  type="float">Goal y coordinate</input_port>
+      <input_port name="goal_yaw"
+                  default="0.000000"
+                  type="float">Goal orientation (yaw)</input_port>
+      <input_port name="action_name"
+                  type="std::string">Action server name</input_port>
+    </Action>
+  </TreeNodesModel>
+
 </root>

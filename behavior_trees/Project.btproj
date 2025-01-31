@@ -7,13 +7,19 @@
             <input_port name="max_remain_time" default="420" type="int">Maximum remaining time (s)</input_port>
             <input_port name="min_remain_time" default="0" type="int">Minimum remaining time (s)</input_port>
             <input_port name="expected_game_progress" default="4" type="int">Expected game progress stage</input_port>
-            <input_port name="key_port" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;"/>
+            <input_port name="key_port" default="{@game_status}" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;">GameStatus port on blackboard</input_port>
+        </Condition>
+        <Condition ID="IsStatusOK">
+            <input_port name="ammo_min" default="0" type="int">Lower then minimum ammo will return FAILURE</input_port>
+            <input_port name="heat_max" default="350" type="int">Maximum heat. NOTE: Sentry heat limit is 400</input_port>
+            <input_port name="hp_min" default="300" type="int">Minimum HP. NOTE: Sentry init/max HP is 400</input_port>
+            <input_port name="key_port" default="{@robot_status}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
         </Condition>
         <Action ID="SendNav2Goal">
-            <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
-            <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
             <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
-            <input_port name="action_name" default="navigate_to_pose" type="std::string">Action name</input_port>
+            <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
+            <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
+            <input_port name="action_name" type="std::string">Action server name</input_port>
         </Action>
     </TreeNodesModel>
 </root>

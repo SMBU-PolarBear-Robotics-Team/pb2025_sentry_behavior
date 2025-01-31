@@ -29,6 +29,9 @@ ament_auto_add_executable(pb2025_sentry_behavior src/pb2025_sentry_behavior.cpp)
 ament_auto_add_library(is_game_status SHARED plugins/condition/is_game_status.cpp)
 list(APPEND plugin_libs is_game_status)
 
+ament_auto_add_library(is_status_ok SHARED plugins/condition/is_status_ok.cpp)
+list(APPEND plugin_libs is_status_ok)
+
 ament_auto_add_library(send_nav2_goal SHARED plugins/action/send_nav2_goal.cpp)
 list(APPEND plugin_libs send_nav2_goal)
 
