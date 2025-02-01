@@ -44,6 +44,9 @@ list(APPEND plugin_libs pub_nav2_goal)
 ament_auto_add_library(recovery_node SHARED plugins/control/recovery_node.cpp)
 list(APPEND plugin_libs recovery_node)
 
+ament_auto_add_library(rate_controller SHARED plugins/decorator/rate_controller.cpp)
+list(APPEND plugin_libs rate_controller)
+
 foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()

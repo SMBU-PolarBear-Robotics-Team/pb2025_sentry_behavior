@@ -28,6 +28,9 @@
             <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Condition>
+        <Decorator ID="RateController">
+            <input_port name="hz" default="10.000000" type="double">Rate</input_port>
+        </Decorator>
         <Control ID="RecoveryNode">
             <input_port name="num_attempts" default="999" type="int">Number of retries</input_port>
         </Control>
