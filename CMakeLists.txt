@@ -35,6 +35,8 @@ list(APPEND plugin_libs is_status_ok)
 ament_auto_add_library(send_nav2_goal SHARED plugins/action/send_nav2_goal.cpp)
 list(APPEND plugin_libs send_nav2_goal)
 
+ament_auto_add_library(recovery_node SHARED plugins/control/recovery_node.cpp)
+list(APPEND plugin_libs recovery_node)
 
 foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)

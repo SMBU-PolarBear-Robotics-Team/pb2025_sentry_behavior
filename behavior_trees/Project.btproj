@@ -15,6 +15,9 @@
             <input_port name="hp_min" default="300" type="int">Minimum HP. NOTE: Sentry init/max HP is 400</input_port>
             <input_port name="key_port" default="{@robot_status}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
         </Condition>
+        <Control ID="RecoveryNode">
+            <input_port name="num_attempts" default="999" type="int">Number of retries</input_port>
+        </Control>
         <Action ID="SendNav2Goal">
             <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
             <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
