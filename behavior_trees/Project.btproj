@@ -3,6 +3,10 @@
     <include path="dev_rm.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
+        <Condition ID="IsAttacked">
+            <input_port name="key_port" default="{@robot_status}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+        </Condition>
         <Condition ID="IsGameStatus">
             <input_port name="max_remain_time" default="420" type="int">Maximum remaining time (s)</input_port>
             <input_port name="min_remain_time" default="0" type="int">Minimum remaining time (s)</input_port>
