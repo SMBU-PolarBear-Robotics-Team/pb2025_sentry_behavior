@@ -41,5 +41,8 @@
             <input_port name="goal_yaw" type="float" default="0.000000">Goal orientation (yaw)</input_port>
             <input_port name="action_name" type="std::string" default="">Action server name</input_port>
         </Action>
+        <Decorator ID="TickAfterTimeout">
+            <input_port name="timeout" type="float">time in s to wait before ticking child again</input_port>
+        </Decorator>
     </TreeNodesModel>
 </root>
