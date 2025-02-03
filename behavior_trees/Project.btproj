@@ -32,6 +32,13 @@
             <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Condition>
+        <Action ID="PublishTwist">
+            <input_port name="v_y" default="0.000000" type="double">Linear Y velocity (m/s)</input_port>
+            <input_port name="v_yaw" default="0.000000" type="double">Angular Z velocity (rad/s)</input_port>
+            <input_port name="v_x" default="0.000000" type="double">Linear X velocity (m/s)</input_port>
+            <input_port name="duration" type="std::chrono::milliseconds">Duration to publish (msec)</input_port>
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+        </Action>
         <Decorator ID="RateController">
             <input_port name="hz" default="10.000000" type="double">Rate</input_port>
         </Decorator>
