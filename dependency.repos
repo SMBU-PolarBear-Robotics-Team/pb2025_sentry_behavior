@@ -4,7 +4,7 @@
 repositories:
   BehaviorTree.ROS2:
     type: git
-    url: https://github.com/BehaviorTree/BehaviorTree.ROS2.git
+    url: https://github.com/SMBU-PolarBear-Robotics-Team/BehaviorTree.ROS2.git
     version: humble
 
   pb_rm_interfaces:

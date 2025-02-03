@@ -22,7 +22,7 @@
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
 git clone https://github.com/SMBU-PolarBear-Robotics-Team/pb2025_sentry_behavior.git
-git clone https://github.com/BehaviorTree/BehaviorTree.ROS2.git
+git clone https://github.com/SMBU-PolarBear-Robotics-Team/BehaviorTree.ROS2.git
 git clone https://github.com/SMBU-PolarBear-Robotics-Team/pb_rm_interfaces.git -b protocol-v1.7.0
 
 cd ~/ros2_ws
