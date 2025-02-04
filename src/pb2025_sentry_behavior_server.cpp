@@ -34,6 +34,9 @@ void SentryBehaviorServer::subscribe(const std::string & topic, const std::strin
 SentryBehaviorServer::SentryBehaviorServer(const rclcpp::NodeOptions & options)
 : TreeExecutionServer(options)
 {
+  node()->declare_parameter("use_cout_logger", false);
+  node()->get_parameter("use_cout_logger", use_cout_logger_);
+
   subscribe<pb_rm_interfaces::msg::EventData>("referee/event_data", "event_data");
   subscribe<pb_rm_interfaces::msg::GameRobotHP>("referee/all_robot_hp", "all_robot_hp");
   subscribe<pb_rm_interfaces::msg::GameStatus>("referee/game_status", "game_status");
@@ -55,7 +58,9 @@ bool SentryBehaviorServer::onGoalReceived(
 
 void SentryBehaviorServer::onTreeCreated(BT::Tree & tree)
 {
-  logger_cout_ = std::make_shared<BT::StdCoutLogger>(tree);
+  if (use_cout_logger_) {
+    logger_cout_ = std::make_shared<BT::StdCoutLogger>(tree);
+  }
   tick_count_ = 0;
 }
 

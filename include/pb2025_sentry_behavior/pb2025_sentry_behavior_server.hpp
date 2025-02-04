@@ -81,6 +81,7 @@ private:
   std::vector<std::shared_ptr<rclcpp::SubscriptionBase>> subscriptions_;
   std::shared_ptr<BT::StdCoutLogger> logger_cout_;
   uint32_t tick_count_;
+  bool use_cout_logger_;
 };
 
 }  // namespace pb2025_sentry_behavior

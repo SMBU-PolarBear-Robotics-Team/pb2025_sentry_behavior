@@ -5,6 +5,7 @@ pb2025_sentry_behavior_server:
     tick_frequency: 10                          # Optional (defaults to 100 Hz)
     groot2_port: 1667                           # Optional (defaults to 1667)
     ros_plugins_timeout: 1000                   # Optional (defaults 1000 ms)
+    use_cout_logger: False                      # Optional (defaults to False)
 
     plugins:
       - pb2025_sentry_behavior/bt_plugins
