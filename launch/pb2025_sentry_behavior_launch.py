@@ -83,8 +83,8 @@ def generate_launch_description():
             SetRemap("/tf_static", "tf_static"),
             Node(
                 package="pb2025_sentry_behavior",
-                executable="pb2025_sentry_behavior",
-                name="pb2025_sentry_behavior",
+                executable="pb2025_sentry_behavior_server",
+                name="pb2025_sentry_behavior_server",
                 output="screen",
                 parameters=[configured_params],
                 arguments=["--ros-args", "--log-level", log_level],

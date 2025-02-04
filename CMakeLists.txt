@@ -24,7 +24,7 @@ ament_auto_find_build_dependencies()
 ## Build ##
 ###########
 
-ament_auto_add_executable(pb2025_sentry_behavior src/pb2025_sentry_behavior.cpp)
+ament_auto_add_executable(pb2025_sentry_behavior_server src/pb2025_sentry_behavior_server.cpp)
 
 ####### Conditions #######
 ament_auto_add_library(is_game_status SHARED plugins/condition/is_game_status.cpp)
