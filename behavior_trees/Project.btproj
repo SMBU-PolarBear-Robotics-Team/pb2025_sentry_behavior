@@ -4,8 +4,9 @@
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
         <Condition ID="IsAttacked">
+            <output_port name="gimbal_yaw" default="{gimbal_yaw}" type="std::string">Move gimbal_yaw to the direction of the hit armor plate</output_port>
+            <output_port name="gimbal_pitch" default="{gimbal_pitch}" type="std::string">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
             <input_port name="key_port" default="{@robot_status}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
-            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Condition>
         <Condition ID="IsGameStatus">
             <input_port name="max_remain_time" default="420" type="int">Maximum remaining time (s)</input_port>
@@ -26,6 +27,12 @@
             <input_port name="hp_min" default="300" type="int">Minimum HP. NOTE: Sentry init/max HP is 400</input_port>
             <input_port name="key_port" default="{@robot_status}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
         </Condition>
+        <Action ID="PubJointState">
+            <input_port name="gimbal_pitch" default="{gimbal_pitch}" type="std::string">Expected Pitch angle (rad) of the gimbal</input_port>
+            <input_port name="gimbal_yaw" default="{gimbal_yaw}" type="std::string">Expected Yaw angle (rad) of the gimbal</input_port>
+            <input_port name="duration" type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+        </Action>
         <Condition ID="PubNav2Goal">
             <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
             <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
@@ -36,7 +43,7 @@
             <input_port name="v_y" default="0.000000" type="double">Linear Y velocity (m/s)</input_port>
             <input_port name="v_yaw" default="0.000000" type="double">Angular Z velocity (rad/s)</input_port>
             <input_port name="v_x" default="0.000000" type="double">Linear X velocity (m/s)</input_port>
-            <input_port name="duration" type="std::chrono::milliseconds">Duration to publish (msec)</input_port>
+            <input_port name="duration" type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Action>
         <Decorator ID="RateController">

@@ -15,31 +15,28 @@
 #include "pb2025_sentry_behavior/plugins/condition/is_attacked.hpp"
 
 #include "pb_rm_interfaces/msg/robot_status.hpp"
-#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
 
 namespace pb2025_sentry_behavior
 {
 
-IsAttackedCondition::IsAttackedCondition(
-  const std::string & name, const BT::NodeConfig & conf, const BT::RosNodeParams & params)
-: RosTopicPubNode<sensor_msgs::msg::JointState>(name, conf, params)
+IsAttackedCondition::IsAttackedCondition(const std::string & name, const BT::NodeConfig & config)
+: BT::SimpleConditionNode(name, std::bind(&IsAttackedCondition::checkIsAttacked, this), config)
 {
-  tf_buffer_ = std::make_unique<tf2_ros::Buffer>(node_->get_clock());
-  tf_listener_ = std::make_unique<tf2_ros::TransformListener>(*tf_buffer_);
 }
 
-bool IsAttackedCondition::setMessage(sensor_msgs::msg::JointState & goal)
+BT::NodeStatus IsAttackedCondition::checkIsAttacked()
 {
   auto msg = getInput<pb_rm_interfaces::msg::RobotStatus>("key_port");
   if (!msg) {
-    RCLCPP_ERROR(node_->get_logger(), "RobotStatus message is not available");
-    return false;
+    RCLCPP_ERROR(logger_, "RobotStatus message is not available");
+    return BT::NodeStatus::FAILURE;
   }
 
-  float hit_armor_pose = 0.0;
-  double cur_roll, cur_pitch, cur_yaw;
-  if (msg->is_hp_deduced && msg->hp_deduction_reason == msg->ARMOR_HIT) {
-    RCLCPP_DEBUG(node_->get_logger(), "Armor hit detected");
+  const bool is_attacked = msg->is_hp_deduced && msg->hp_deduction_reason == msg->ARMOR_HIT;
+
+  if (is_attacked) {
+    RCLCPP_DEBUG(logger_, "Armor hit detected");
+    float hit_armor_pose = 0.0;
     switch (msg->armor_id) {
       // Anticlockwise from armor 0
       case 0:
@@ -55,48 +52,32 @@ bool IsAttackedCondition::setMessage(sensor_msgs::msg::JointState & goal)
         hit_armor_pose = -M_PI_2;
         break;
       default:
-        RCLCPP_WARN(node_->get_logger(), "Invalid armor id: %d", msg->armor_id);
+        RCLCPP_WARN(logger_, "Invalid armor id: %d", msg->armor_id);
         break;
     }
-    tf2::Transform tf_chassis_to_gimbal = getTransform("chassis", "gimbal_yaw", node_->now());
-    tf2::Matrix3x3(tf_chassis_to_gimbal.getRotation()).getRPY(cur_roll, cur_pitch, cur_yaw);
-    RCLCPP_INFO(node_->get_logger(), "cur_yaw: %f", cur_yaw);
-
-    int yaw_rounds = static_cast<int>(cur_yaw / (2 * M_PI));
-
-    goal.header.stamp = node_->now();
-    goal.name = {"gimbal_pitch_joint", "gimbal_yaw_joint"};
-    goal.position = {0.0, hit_armor_pose + yaw_rounds * (2 * M_PI)};
+    setOutput("gimbal_pitch", 0.0);
+    setOutput("gimbal_yaw", hit_armor_pose);
   }
 
-  return true;
+  return is_attacked ? BT::NodeStatus::SUCCESS : BT::NodeStatus::FAILURE;
 }
 
 BT::PortsList IsAttackedCondition::providedPorts()
 {
-  BT::PortsList additional_ports = {
+  return {
     BT::InputPort<pb_rm_interfaces::msg::RobotStatus>(
       "key_port", "{@robot_status}", "RobotStatus port on blackboard"),
-  };
-  return providedBasicPorts(additional_ports);
-}
-
-tf2::Transform IsAttackedCondition::getTransform(
-  const std::string & target_frame, const std::string & source_frame, const rclcpp::Time & time)
-{
-  try {
-    auto transform_stamped = tf_buffer_->lookupTransform(
-      target_frame, source_frame, time, rclcpp::Duration::from_seconds(0.5));
-    tf2::Transform transform;
-    tf2::fromMsg(transform_stamped.transform, transform);
-    return transform;
-  } catch (tf2::TransformException & ex) {
-    RCLCPP_WARN(node_->get_logger(), "TF lookup failed: %s. Returning identity.", ex.what());
-    return tf2::Transform::getIdentity();
-  }
+    BT::OutputPort<float>(
+      "gimbal_pitch", "{gimbal_pitch}",
+      "Move gimbal_pitch (const 0.0) to the direction of the hit armor plate"),
+    BT::OutputPort<float>(
+      "gimbal_yaw", "{gimbal_yaw}", "Move gimbal_yaw to the direction of the hit armor plate")};
 }
 
 }  // namespace pb2025_sentry_behavior
 
-#include "behaviortree_ros2/plugins.hpp"
-CreateRosNodePlugin(pb2025_sentry_behavior::IsAttackedCondition, "IsAttacked");
+#include "behaviortree_cpp/bt_factory.h"
+BT_REGISTER_NODES(factory)
+{
+  factory.registerNodeType<pb2025_sentry_behavior::IsAttackedCondition>("IsAttacked");
+}

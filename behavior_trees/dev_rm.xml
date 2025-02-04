@@ -23,6 +23,38 @@
     </WhileDoElse>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_attacked_feedback">
+    <KeepRunningUntilFailure>
+      <WhileDoElse>
+        <IsAttacked gimbal_yaw="{gimbal_yaw}"
+                    gimbal_pitch="{gimbal_pitch}"
+                    key_port="{@robot_status}"/>
+        <Sequence>
+          <PubJointState gimbal_pitch="{gimbal_pitch}"
+                         gimbal_yaw="{gimbal_yaw}"
+                         duration="500"
+                         topic_name="cmd_gimbal_joint"/>
+          <PublishTwist v_y="0.0"
+                        v_yaw="3.14"
+                        v_x="0.0"
+                        duration="2000"
+                        topic_name="cmd_vel"/>
+          <PublishTwist v_y="0.0"
+                        v_yaw="0.0"
+                        v_x="1.0"
+                        duration="1000"
+                        topic_name="cmd_vel"/>
+          <PublishTwist v_y="0.0"
+                        v_yaw="3.14"
+                        v_x="1.0"
+                        duration="1000"
+                        topic_name="cmd_vel"/>
+        </Sequence>
+        <AlwaysSuccess/>
+      </WhileDoElse>
+    </KeepRunningUntilFailure>
+  </BehaviorTree>
+
   <BehaviorTree ID="test_go_to_supply">
     <Repeat num_cycles="-1">
       <WhileDoElse>
@@ -44,6 +76,17 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Condition ID="IsAttacked">
+      <output_port name="gimbal_yaw"
+                   default="{gimbal_yaw}"
+                   type="std::string">Move gimbal_yaw to the direction of the hit armor plate</output_port>
+      <output_port name="gimbal_pitch"
+                   default="{gimbal_pitch}"
+                   type="std::string">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
+      <input_port name="key_port"
+                  default="{@robot_status}"
+                  type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
+    </Condition>
     <Condition ID="IsRfidDetected">
       <input_port name="friendly_supply_zone_exchange"
                   default="false"
@@ -75,6 +118,19 @@
                   default="{@robot_status}"
                   type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
     </Condition>
+    <Action ID="PubJointState">
+      <input_port name="gimbal_pitch"
+                  default="{gimbal_pitch}"
+                  type="std::string">Expected Pitch angle (rad) of the gimbal</input_port>
+      <input_port name="gimbal_yaw"
+                  default="{gimbal_yaw}"
+                  type="std::string">Expected Yaw angle (rad) of the gimbal</input_port>
+      <input_port name="duration"
+                  type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
+      <input_port name="topic_name"
+                  default="__default__placeholder__"
+                  type="std::string">Topic name</input_port>
+    </Action>
     <Condition ID="PubNav2Goal">
       <input_port name="goal_x"
                   default="0.000000"
@@ -89,6 +145,22 @@
                   default="__default__placeholder__"
                   type="std::string">Topic name</input_port>
     </Condition>
+    <Action ID="PublishTwist">
+      <input_port name="v_y"
+                  default="0.000000"
+                  type="double">Linear Y velocity (m/s)</input_port>
+      <input_port name="v_yaw"
+                  default="0.000000"
+                  type="double">Angular Z velocity (rad/s)</input_port>
+      <input_port name="v_x"
+                  default="0.000000"
+                  type="double">Linear X velocity (m/s)</input_port>
+      <input_port name="duration"
+                  type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
+      <input_port name="topic_name"
+                  default="__default__placeholder__"
+                  type="std::string">Topic name</input_port>
+    </Action>
   </TreeNodesModel>
 
 </root>

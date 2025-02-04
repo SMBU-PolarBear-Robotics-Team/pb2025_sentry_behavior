@@ -18,31 +18,33 @@
 #include <memory>
 #include <string>
 
-#include "behaviortree_ros2/bt_topic_pub_node.hpp"
-#include "sensor_msgs/msg/joint_state.hpp"
-#include "tf2_ros/buffer.h"
-#include "tf2_ros/transform_listener.h"
+#include "behaviortree_cpp/condition_node.h"
+#include "rclcpp/rclcpp.hpp"
 
 namespace pb2025_sentry_behavior
 {
-class IsAttackedCondition : public BT::RosTopicPubNode<sensor_msgs::msg::JointState>
+/**
+ * @brief A BT::ConditionNode that get GameStatus from port and
+ * returns SUCCESS when current game status and remain time is expected
+ */
+class IsAttackedCondition : public BT::SimpleConditionNode
 {
 public:
-  IsAttackedCondition(
-    const std::string & name, const BT::NodeConfig & conf, const BT::RosNodeParams & params);
+  IsAttackedCondition(const std::string & name, const BT::NodeConfig & config);
 
+  /**
+   * @brief Creates list of BT ports
+   * @return BT::PortsList Containing node-specific ports
+   */
   static BT::PortsList providedPorts();
 
-  bool setMessage(sensor_msgs::msg::JointState & goal) override;
-
 private:
-  rclcpp::Time now() { return node_->now(); }
+  /**
+   * @brief Tick function for robot_status ports
+   */
+  BT::NodeStatus checkIsAttacked();
 
-  tf2::Transform getTransform(
-    const std::string & target_frame, const std::string & source_frame, const rclcpp::Time & time);
-
-  std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
-  std::unique_ptr<tf2_ros::TransformListener> tf_listener_;
+  rclcpp::Logger logger_ = rclcpp::get_logger("IsAttackedCondition");
 };
 }  // namespace pb2025_sentry_behavior
 
