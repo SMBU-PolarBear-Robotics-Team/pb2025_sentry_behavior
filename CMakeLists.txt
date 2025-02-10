@@ -26,6 +26,15 @@ ament_auto_find_build_dependencies()
 
 ament_auto_add_executable(pb2025_sentry_behavior_server src/pb2025_sentry_behavior_server.cpp)
 
+ament_auto_add_library(action_client SHARED
+  src/pb2025_sentry_behavior_client.cpp
+)
+
+rclcpp_components_register_node(action_client
+  PLUGIN pb2025_sentry_behavior::SentryBehaviorClient
+  EXECUTABLE pb2025_sentry_behavior_client
+)
+
 ####### Conditions #######
 ament_auto_add_library(is_game_status SHARED plugins/condition/is_game_status.cpp)
 list(APPEND plugin_libs is_game_status)

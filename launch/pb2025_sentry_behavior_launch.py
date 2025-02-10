@@ -89,6 +89,14 @@ def generate_launch_description():
                 parameters=[configured_params],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
+            Node(
+                package="pb2025_sentry_behavior",
+                executable="pb2025_sentry_behavior_client",
+                name="pb2025_sentry_behavior_client",
+                output="screen",
+                parameters=[configured_params],
+                arguments=["--ros-args", "--log-level", log_level],
+            ),
         ]
     )
 
