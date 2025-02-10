@@ -19,7 +19,7 @@ jobs:
         with:
           package-name: pb2025_sentry_behavior
           target-ros2-distro: humble
-          vcs-repo-file-url: "${{ github.workspace }}/dependency.repos"
+          vcs-repo-file-url: "${{ github.workspace }}/dependencies.repos"
           skip-tests: true
 
       - name: Test pb2025_sentry_behavior

@@ -5,28 +5,40 @@
 
 ![PolarBear Logo](https://raw.githubusercontent.com/SMBU-PolarBear-Robotics-Team/.github/main/.docs/image/polarbear_logo_text.png)
 
+## 1. Overview
+
 > 开发中，不考虑向前兼容性，仅供参考，请谨慎使用。文档可能不会及时更新以反映代码的最新变化。
 
-基于 [BehaviorTree.CPP](https://github.com/BehaviorTree/BehaviorTree.CPP) 和 [BehaviorTree.ROS2](https://github.com/BehaviorTree/BehaviorTree.ROS2) 的哨兵行为树。
+基于 [BehaviorTree.CPP](https://github.com/BehaviorTree/BehaviorTree.CPP) 和 [BehaviorTree.ROS2](https://github.com/BehaviorTree/BehaviorTree.ROS2) 的行为树框架与插件，用于 [RoboMaster](https://www.robomaster.com) 2025 赛季哨兵机器人。
 
-## 1. Usage
+## 2. Quick Start
 
-### 1.1 Install
+### 2.1 Setup Environment
 
 - Ubuntu 22.04
 - ROS2 Humble
 - BehaviorTree.CPP (Developed with release [4.6.2](https://github.com/BehaviorTree/BehaviorTree.CPP/releases/tag/4.6.2))
-- BehaviorTree.ROS2 (Developed with [fork](https://github.com/SMBU-PolarBear-Robotics-Team/BehaviorTree.ROS2))
+
+### 2.2 Create Workspace
 
 ```bash
-mkdir -p ~/ros2_ws/src
-cd ~/ros2_ws/src
-git clone https://github.com/SMBU-PolarBear-Robotics-Team/pb2025_sentry_behavior.git
-git clone https://github.com/SMBU-PolarBear-Robotics-Team/BehaviorTree.ROS2.git
-git clone https://github.com/SMBU-PolarBear-Robotics-Team/pb_rm_interfaces.git -b protocol-v1.7.0
-
-cd ~/ros2_ws
+mkdir -p ~/ros_ws
+cd ~/ros_ws
 ```
+
+```bash
+pip install vcstool2
+```
+
+```bash
+git clone https://github.com/SMBU-PolarBear-Robotics-Team/pb2025_sentry_behavior.git src/pb2025_sentry_behavior
+```
+
+```bash
+vcs import --recursive src < src/pb2025_sentry_behavior/dependencies.repos
+```
+
+### 2.3 Build
 
 ```bash
 rosdepc install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
@@ -36,21 +48,15 @@ rosdepc install -r --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=release
 ```
 
-### 1.2 Run
+### 2.4 Running
 
 ```bash
 ros2 launch pb2025_sentry_behavior pb2025_sentry_behavior_launch.py
 ```
 
-To call the Action Server from the command line:
+## 3. Behaviors
 
-```bash
-ros2 action send_goal /pb2025_sentry_behavior btcpp_ros2_interfaces/action/ExecuteTree "{target_tree: test_attacked_feedback}"
-```
-
-## 2. Behaviors
-
-### 2.1 Action
+### 3.1 Action
 
 #### PubJointState
 
@@ -73,7 +79,7 @@ ros2 action send_goal /pb2025_sentry_behavior btcpp_ros2_interfaces/action/Execu
 
 以 `geometry_msgs/msg/pose_stamped` 的形式发布 Navigation2 目标点。
 
-### 2.2 Condition
+### 3.2 Condition
 
 #### IsAttacked
 
