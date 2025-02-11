@@ -21,6 +21,7 @@
   <depend>geometry_msgs</depend>
   <depend>behaviortree_ros2</depend>
   <depend>pb_rm_interfaces</depend>
+  <depend>auto_aim_interfaces</depend>
   <depend>nav2_msgs</depend>
   <depend>sensor_msgs</depend>
 

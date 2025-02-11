@@ -22,13 +22,6 @@
 #include <vector>
 
 #include "behaviortree_ros2/tree_execution_server.hpp"
-#include "pb_rm_interfaces/msg/buff.hpp"
-#include "pb_rm_interfaces/msg/event_data.hpp"
-#include "pb_rm_interfaces/msg/game_robot_hp.hpp"
-#include "pb_rm_interfaces/msg/game_status.hpp"
-#include "pb_rm_interfaces/msg/ground_robot_position.hpp"
-#include "pb_rm_interfaces/msg/rfid_status.hpp"
-#include "pb_rm_interfaces/msg/robot_status.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 namespace pb2025_sentry_behavior

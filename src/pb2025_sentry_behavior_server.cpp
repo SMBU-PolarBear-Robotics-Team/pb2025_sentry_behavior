@@ -17,7 +17,15 @@
 #include <filesystem>
 #include <fstream>
 
+#include "auto_aim_interfaces/msg/target.hpp"
 #include "behaviortree_cpp/xml_parsing.h"
+#include "pb_rm_interfaces/msg/buff.hpp"
+#include "pb_rm_interfaces/msg/event_data.hpp"
+#include "pb_rm_interfaces/msg/game_robot_hp.hpp"
+#include "pb_rm_interfaces/msg/game_status.hpp"
+#include "pb_rm_interfaces/msg/ground_robot_position.hpp"
+#include "pb_rm_interfaces/msg/rfid_status.hpp"
+#include "pb_rm_interfaces/msg/robot_status.hpp"
 
 namespace pb2025_sentry_behavior
 {
@@ -45,6 +53,8 @@ SentryBehaviorServer::SentryBehaviorServer(const rclcpp::NodeOptions & options)
   subscribe<pb_rm_interfaces::msg::RfidStatus>("referee/rfid_status", "rfid_status");
   subscribe<pb_rm_interfaces::msg::RobotStatus>("referee/robot_status", "robot_status");
   subscribe<pb_rm_interfaces::msg::Buff>("referee/buff", "buff");
+
+  subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "vision_target");
 }
 
 bool SentryBehaviorServer::onGoalReceived(

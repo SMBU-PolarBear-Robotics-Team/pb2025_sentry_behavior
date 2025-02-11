@@ -75,7 +75,7 @@ ros2 launch pb2025_sentry_behavior pb2025_sentry_behavior_launch.py
 >
 > Related Issue:  [#18 Error when canceling action during halt()](https://github.com/BehaviorTree/BehaviorTree.ROS2/issues/18)
 
-### PubNav2Goal
+#### PubNav2Goal
 
 以 `geometry_msgs/msg/pose_stamped` 的形式发布 Navigation2 目标点。
 
@@ -85,17 +85,26 @@ ros2 launch pb2025_sentry_behavior pb2025_sentry_behavior_launch.py
 
 通过 GlobalBlackboard 获取实时的 `pb_rm_interfaces::msg::RobotStatus` 类型数据，判断机器人是否受到攻击，并根据裁判系统装甲模块反馈的信息输出敌方可能的角度位置。该条件节点会根据输入端口的配置，检查以下几个条件：
 
-- `key_port`：从 GlobalBlackboard 获取 `RobotStatus` 消息。
-- `gimbal_pitch`：输出固定的云台俯仰角度（0.0）。
-- `gimbal_yaw`：输出敌方可能的角度位置。
+- `key_port`：从 GlobalBlackboard 获取 `RobotStatus` 消息
+- `gimbal_pitch`：输出固定的云台俯仰角度（0.0）
+- `gimbal_yaw`：输出敌方可能的角度位置
 
 如果检测到装甲板被击中，则返回 `SUCCESS`，并输出相应的云台角度；否则返回 `FAILURE`。
+
+#### IsDetectEnemy
+
+通过视觉模块判断是否感知到敌方。
+
+- `armor_id`：预期的装甲 ID 列表。可以是多个数字，用 `;` 分隔
+- `max_distance`：敌方目标的最大距离
+
+如果视觉模块感知到的敌方在 `armor_id` 列表中，且距离小于 `max_distance`，则返回 SUCCESS，否则返回 FAILURE。
 
 #### IsGameStatus
 
 通过 GlobalBlackboard 获取实时的 `pb_rm_interfaces::msg::GameStatus` 类型数据，判断当前比赛状态是否在输入的时间范围内且处于预期的比赛阶段。该条件节点会根据输入端口的配置，检查以下几个条件：
 
-- `key_port`：从 GlobalBlackboard 获取 `GameStatus` 消息。
+- `key_port`：从 GlobalBlackboard 获取 `GameStatus` 消息
 - `expected_game_progress`：预期的比赛阶段
 - `min_remain_time`：最小剩余时间（秒）
 - `max_remain_time`：最大剩余时间（秒）
@@ -106,7 +115,7 @@ ros2 launch pb2025_sentry_behavior pb2025_sentry_behavior_launch.py
 
 通过 GlobalBlackboard 获取实时的 `pb_rm_interfaces::msg::RfidStatus` 类型数据，判断机器人是否检测到指定的 RFID 标签。该条件节点会根据输入端口的配置，检查以下几个位置的 RFID 状态：
 
-- `key_port`：从 GlobalBlackboard 获取 `RfidStatus` 消息。
+- `key_port`：从 GlobalBlackboard 获取 `RfidStatus` 消息
 - `friendly_fortress_gain_point`：己方堡垒增益点
 - `friendly_supply_zone_non_exchange`：己方与兑换区不重叠的补给区 / RMUL 补给区
 - `friendly_supply_zone_exchange`：己方与兑换区重叠的补给区
@@ -118,7 +127,7 @@ ros2 launch pb2025_sentry_behavior pb2025_sentry_behavior_launch.py
 
 通过 GlobalBlackboard 获取实时的 `pb_rm_interfaces::msg::RobotStatus` 类型数据，判断机器人的状态是否正常。该条件节点会根据输入端口的配置，检查以下几个条件：
 
-- `key_port`：从 GlobalBlackboard 获取 `RobotStatus` 消息。
+- `key_port`：从 GlobalBlackboard 获取 `RobotStatus` 消息
 - `hp_min`：最低血量
 - `heat_max`：最大发射机构的射击热量
 - `ammo_min`：最小弹丸允许发弹量

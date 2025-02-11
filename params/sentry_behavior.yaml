@@ -16,4 +16,4 @@ pb2025_sentry_behavior_server:
 pb2025_sentry_behavior_client:
   ros__parameters:
     use_sim_time: true
-    target_tree: test_go_to_supply
+    target_tree: test_is_detect_enemy

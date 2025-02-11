@@ -74,18 +74,42 @@
     </Repeat>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_is_detect_enemy">
+    <ReactiveFallback>
+      <IsDetectEnemy armor_id="1;2;3;4;5;7"
+                     max_distance="8.0"
+                     key_port="{@vision_target}"/>
+      <PublishTwist v_y="0.0"
+                    v_yaw="6.28"
+                    v_x="0.0"
+                    duration="3000"
+                    topic_name="cmd_vel"/>
+    </ReactiveFallback>
+  </BehaviorTree>
+
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Condition ID="IsAttacked">
       <output_port name="gimbal_yaw"
                    default="{gimbal_yaw}"
-                   type="std::string">Move gimbal_yaw to the direction of the hit armor plate</output_port>
+                   type="float">Move gimbal_yaw to the direction of the hit armor plate</output_port>
       <output_port name="gimbal_pitch"
                    default="{gimbal_pitch}"
-                   type="std::string">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
+                   type="float">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
       <input_port name="key_port"
                   default="{@robot_status}"
                   type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
+    </Condition>
+    <Condition ID="IsDetectEnemy">
+      <input_port name="armor_id"
+                  default="1;2;3;4;5;7"
+                  type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;">Expected id of armors. Multiple numbers should be separated by the character `;` in Groot2</input_port>
+      <input_port name="max_distance"
+                  default="8.000000"
+                  type="float">Distance to enemy target</input_port>
+      <input_port name="key_port"
+                  default="{@vision_target}"
+                  type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
     </Condition>
     <Condition ID="IsRfidDetected">
       <input_port name="friendly_supply_zone_exchange"
@@ -121,10 +145,10 @@
     <Action ID="PubJointState">
       <input_port name="gimbal_pitch"
                   default="{gimbal_pitch}"
-                  type="std::string">Expected Pitch angle (rad) of the gimbal</input_port>
+                  type="float">Expected Pitch angle (rad) of the gimbal</input_port>
       <input_port name="gimbal_yaw"
                   default="{gimbal_yaw}"
-                  type="std::string">Expected Yaw angle (rad) of the gimbal</input_port>
+                  type="float">Expected Yaw angle (rad) of the gimbal</input_port>
       <input_port name="duration"
                   type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
       <input_port name="topic_name"
