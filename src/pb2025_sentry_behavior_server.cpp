@@ -45,16 +45,16 @@ SentryBehaviorServer::SentryBehaviorServer(const rclcpp::NodeOptions & options)
   node()->declare_parameter("use_cout_logger", false);
   node()->get_parameter("use_cout_logger", use_cout_logger_);
 
-  subscribe<pb_rm_interfaces::msg::EventData>("referee/event_data", "event_data");
-  subscribe<pb_rm_interfaces::msg::GameRobotHP>("referee/all_robot_hp", "all_robot_hp");
-  subscribe<pb_rm_interfaces::msg::GameStatus>("referee/game_status", "game_status");
+  subscribe<pb_rm_interfaces::msg::EventData>("referee/event_data", "referee_eventData");
+  subscribe<pb_rm_interfaces::msg::GameRobotHP>("referee/all_robot_hp", "referee_allRobotHP");
+  subscribe<pb_rm_interfaces::msg::GameStatus>("referee/game_status", "referee_gameStatus");
   subscribe<pb_rm_interfaces::msg::GroundRobotPosition>(
-    "referee/ground_robot_position", "ground_robot_position");
-  subscribe<pb_rm_interfaces::msg::RfidStatus>("referee/rfid_status", "rfid_status");
-  subscribe<pb_rm_interfaces::msg::RobotStatus>("referee/robot_status", "robot_status");
-  subscribe<pb_rm_interfaces::msg::Buff>("referee/buff", "buff");
+    "referee/ground_robot_position", "referee_groundRobotPosition");
+  subscribe<pb_rm_interfaces::msg::RfidStatus>("referee/rfid_status", "referee_rfidStatus");
+  subscribe<pb_rm_interfaces::msg::RobotStatus>("referee/robot_status", "referee_robotStatus");
+  subscribe<pb_rm_interfaces::msg::Buff>("referee/buff", "referee_buff");
 
-  subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "vision_target");
+  subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "tracker_target");
 }
 
 bool SentryBehaviorServer::onGoalReceived(

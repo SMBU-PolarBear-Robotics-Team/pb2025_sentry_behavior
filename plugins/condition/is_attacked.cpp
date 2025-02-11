@@ -66,7 +66,7 @@ BT::PortsList IsAttackedCondition::providedPorts()
 {
   return {
     BT::InputPort<pb_rm_interfaces::msg::RobotStatus>(
-      "key_port", "{@robot_status}", "RobotStatus port on blackboard"),
+      "key_port", "{@referee_robotStatus}", "RobotStatus port on blackboard"),
     BT::OutputPort<float>(
       "gimbal_pitch", "{gimbal_pitch}",
       "Move gimbal_pitch (const 0.0) to the direction of the hit armor plate"),

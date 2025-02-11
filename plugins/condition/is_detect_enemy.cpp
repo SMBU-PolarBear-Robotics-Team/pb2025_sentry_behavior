@@ -27,7 +27,7 @@ BT::PortsList IsDetectEnemyCondition::providedPorts()
 {
   return {
     BT::InputPort<auto_aim_interfaces::msg::Target>(
-      "key_port", "{@vision_target}", "Vision target port on blackboard"),
+      "key_port", "{@tracker_target}", "Vision target port on blackboard"),
     BT::InputPort<std::vector<int>>(
       "armor_id", "1;2;3;4;5;7",
       "Expected id of armors. Multiple numbers should be separated by the character `;` in Groot2"),

@@ -54,7 +54,7 @@ BT::PortsList IsRfidDetectedCondition::providedPorts()
 {
   return {
     BT::InputPort<pb_rm_interfaces::msg::RfidStatus>(
-      "key_port", "{@rfid_status}", "RfidStatus port on blackboard"),
+      "key_port", "{@referee_rfidStatus}", "RfidStatus port on blackboard"),
     BT::InputPort<bool>("friendly_fortress_gain_point", false, "己方堡垒增益点"),
     BT::InputPort<bool>(
       "friendly_supply_zone_non_exchange", false, "己方与兑换区不重叠的补给区 / RMUL 补给区"),

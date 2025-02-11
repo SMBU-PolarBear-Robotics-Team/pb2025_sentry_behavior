@@ -6,12 +6,12 @@
                       friendly_supply_zone_non_exchange="true"
                       center_gain_point="false"
                       friendly_fortress_gain_point="false"
-                      key_port="{@rfid_status}"/>
+                      key_port="{@referee_rfidStatus}"/>
       <RetryUntilSuccessful num_attempts="-1">
         <IsStatusOK ammo_min="0"
                     heat_max="100"
                     hp_min="399"
-                    key_port="{@robot_status}"/>
+                    key_port="{@referee_robotStatus}"/>
       </RetryUntilSuccessful>
       <Sequence>
         <PubNav2Goal goal_x="0.000000"
@@ -28,7 +28,7 @@
       <WhileDoElse>
         <IsAttacked gimbal_yaw="{gimbal_yaw}"
                     gimbal_pitch="{gimbal_pitch}"
-                    key_port="{@robot_status}"/>
+                    key_port="{@referee_robotStatus}"/>
         <Sequence>
           <PubJointState gimbal_pitch="{gimbal_pitch}"
                          gimbal_yaw="{gimbal_yaw}"
@@ -61,7 +61,7 @@
         <IsStatusOK ammo_min="0"
                     heat_max="350"
                     hp_min="350"
-                    key_port="{@robot_status}"/>
+                    key_port="{@referee_robotStatus}"/>
         <Sequence>
           <PubNav2Goal goal_x="3.000000"
                        goal_y="0.000000"
@@ -78,7 +78,7 @@
     <ReactiveFallback>
       <IsDetectEnemy armor_id="1;2;3;4;5;7"
                      max_distance="8.0"
-                     key_port="{@vision_target}"/>
+                     key_port="{@tracker_target}"/>
       <PublishTwist v_y="0.0"
                     v_yaw="6.28"
                     v_x="0.0"
@@ -97,7 +97,7 @@
                    default="{gimbal_pitch}"
                    type="float">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
       <input_port name="key_port"
-                  default="{@robot_status}"
+                  default="{@referee_robotStatus}"
                   type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
     </Condition>
     <Condition ID="IsDetectEnemy">
@@ -108,7 +108,7 @@
                   default="8.000000"
                   type="float">Distance to enemy target</input_port>
       <input_port name="key_port"
-                  default="{@vision_target}"
+                  default="{@tracker_target}"
                   type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
     </Condition>
     <Condition ID="IsRfidDetected">
@@ -125,7 +125,7 @@
                   default="false"
                   type="bool">己方堡垒增益点</input_port>
       <input_port name="key_port"
-                  default="{@rfid_status}"
+                  default="{@referee_rfidStatus}"
                   type="pb_rm_interfaces::msg::RfidStatus_&lt;std::allocator&lt;void&gt; &gt;">RfidStatus port on blackboard</input_port>
     </Condition>
     <Condition ID="IsStatusOK">
@@ -139,7 +139,7 @@
                   default="300"
                   type="int">Minimum HP. NOTE: Sentry init/max HP is 400</input_port>
       <input_port name="key_port"
-                  default="{@robot_status}"
+                  default="{@referee_robotStatus}"
                   type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
     </Condition>
     <Action ID="PubJointState">

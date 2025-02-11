@@ -3,25 +3,25 @@
         <Condition ID="IsAttacked">
             <output_port name="gimbal_yaw" type="float" default="{gimbal_yaw}">Move gimbal_yaw to the direction of the hit armor plate</output_port>
             <output_port name="gimbal_pitch" type="float" default="{gimbal_pitch}">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
-            <input_port name="key_port" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@robot_status}">RobotStatus port on blackboard</input_port>
+            <input_port name="key_port" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@referee_robotStatus}">RobotStatus port on blackboard</input_port>
         </Condition>
         <Condition ID="IsDetectEnemy">
             <input_port name="armor_id" type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;" default="1;2;3;4;5;7">Expected id of armors. Multiple numbers should be separated by the character `;` in Groot2</input_port>
             <input_port name="max_distance" type="float" default="8.000000">Distance to enemy target</input_port>
-            <input_port name="key_port" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;" default="{@vision_target}">Vision target port on blackboard</input_port>
+            <input_port name="key_port" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;" default="{@tracker_target}">Vision target port on blackboard</input_port>
         </Condition>
         <Condition ID="IsGameStatus">
             <input_port name="max_remain_time" type="int" default="420">Maximum remaining time (s)</input_port>
             <input_port name="min_remain_time" type="int" default="0">Minimum remaining time (s)</input_port>
             <input_port name="expected_game_progress" type="int" default="4">Expected game progress stage</input_port>
-            <input_port name="key_port" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@game_status}">GameStatus port on blackboard</input_port>
+            <input_port name="key_port" type="pb_rm_interfaces::msg::GameStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@referee_gameStatus}">GameStatus port on blackboard</input_port>
         </Condition>
         <Condition ID="IsRfidDetected">
             <input_port name="friendly_supply_zone_exchange" type="bool" default="false">己方与兑换区重叠的补给区</input_port>
             <input_port name="friendly_supply_zone_non_exchange" type="bool" default="false">己方与兑换区不重叠的补给区 / RMUL 补给区</input_port>
             <input_port name="center_gain_point" type="bool" default="false">中心增益点（仅 RMUL 适用）</input_port>
             <input_port name="friendly_fortress_gain_point" type="bool" default="false">己方堡垒增益点</input_port>
-            <input_port name="key_port" type="pb_rm_interfaces::msg::RfidStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@rfid_status}">RfidStatus port on blackboard</input_port>
+            <input_port name="key_port" type="pb_rm_interfaces::msg::RfidStatus_&lt;std::allocator&lt;void&gt; &gt;" default="{@referee_rfidStatus}">RfidStatus port on blackboard</input_port>
         </Condition>
         <Condition ID="IsStatusOK">
             <input_port name="ammo_min" type="int" default="0">Lower then minimum ammo will return FAILURE</input_port>
