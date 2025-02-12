@@ -39,9 +39,7 @@
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Action>
         <Condition ID="PubNav2Goal">
-            <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
-            <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
-            <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
+            <input_port name="goal" default="0;0;0" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Condition>
         <Action ID="PublishTwist">
@@ -58,9 +56,7 @@
             <input_port name="num_attempts" default="999" type="int">Number of retries</input_port>
         </Control>
         <Action ID="SendNav2Goal">
-            <input_port name="goal_x" default="0.000000" type="float">Goal x coordinate</input_port>
-            <input_port name="goal_y" default="0.000000" type="float">Goal y coordinate</input_port>
-            <input_port name="goal_yaw" default="0.000000" type="float">Goal orientation (yaw)</input_port>
+            <input_port name="goal" default="0;0;0" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
             <input_port name="action_name" type="std::string">Action server name</input_port>
         </Action>
         <Decorator ID="TickAfterTimeout">

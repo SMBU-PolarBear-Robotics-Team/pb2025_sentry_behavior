@@ -14,7 +14,7 @@
 
 #include "pb2025_sentry_behavior/plugins/action/send_nav2_goal.hpp"
 
-#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+#include "pb2025_sentry_behavior/custom_types.hpp"
 
 namespace pb2025_sentry_behavior
 {
@@ -27,21 +27,11 @@ SendNav2GoalAction::SendNav2GoalAction(
 
 bool SendNav2GoalAction::setGoal(nav2_msgs::action::NavigateToPose::Goal & goal)
 {
-  auto goal_x = getInput<float>("goal_x");
-  auto goal_y = getInput<float>("goal_y");
-  auto goal_yaw = getInput<float>("goal_yaw");
-  tf2::Quaternion quaternion;
-  quaternion.setRPY(0, 0, goal_yaw.value());
+  auto receive_goal = getInput<geometry_msgs::msg::PoseStamped>("goal");
 
   goal.pose.header.frame_id = "map";
   goal.pose.header.stamp = now();
-  goal.pose.pose.position.x = goal_x.value();
-  goal.pose.pose.position.y = goal_y.value();
-  goal.pose.pose.orientation = tf2::toMsg(quaternion);
-
-  RCLCPP_DEBUG(
-    logger(), "Setting goal to (%.2f, %.2f, %.2f)", goal_x.value(), goal_y.value(),
-    goal_yaw.value());
+  goal.pose.pose = receive_goal->pose;
 
   return true;
 }
@@ -85,9 +75,8 @@ BT::NodeStatus SendNav2GoalAction::onFailure(BT::ActionNodeErrorCode error)
 BT::PortsList SendNav2GoalAction::providedPorts()
 {
   BT::PortsList additional_ports = {
-    BT::InputPort<float>("goal_x", 0.0, "Goal x coordinate"),
-    BT::InputPort<float>("goal_y", 0.0, "Goal y coordinate"),
-    BT::InputPort<float>("goal_yaw", 0.0, "Goal orientation (yaw)"),
+    BT::InputPort<geometry_msgs::msg::PoseStamped>(
+      "goal", "0;0;0", "Expected goal pose that send to nav2. Fill with format `x;y;yaw`"),
   };
   return providedBasicPorts(additional_ports);
 }

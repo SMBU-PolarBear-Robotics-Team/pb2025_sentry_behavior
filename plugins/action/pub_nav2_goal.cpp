@@ -14,7 +14,7 @@
 
 #include "pb2025_sentry_behavior/plugins/action/pub_nav2_goal.hpp"
 
-#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+#include "pb2025_sentry_behavior/custom_types.hpp"
 
 namespace pb2025_sentry_behavior
 {
@@ -25,33 +25,21 @@ PubNav2GoalAction::PubNav2GoalAction(
 {
 }
 
-bool PubNav2GoalAction::setMessage(geometry_msgs::msg::PoseStamped & goal)
+bool PubNav2GoalAction::setMessage(geometry_msgs::msg::PoseStamped & msg)
 {
-  auto goal_x = getInput<float>("goal_x");
-  auto goal_y = getInput<float>("goal_y");
-  auto goal_yaw = getInput<float>("goal_yaw");
-  tf2::Quaternion quaternion;
-  quaternion.setRPY(0, 0, goal_yaw.value());
+  auto goal = getInput<geometry_msgs::msg::PoseStamped>("goal");
 
-  goal.header.stamp = now();
-  goal.header.frame_id = "map";
-  goal.pose.position.x = goal_x.value();
-  goal.pose.position.y = goal_y.value();
-  goal.pose.orientation = tf2::toMsg(quaternion);
-
-  RCLCPP_DEBUG(
-    logger(), "Setting goal to (%.2f, %.2f, %.2f)", goal_x.value(), goal_y.value(),
-    goal_yaw.value());
-
+  msg.header.stamp = now();
+  msg.header.frame_id = "map";
+  msg.pose = goal->pose;
   return true;
 }
 
 BT::PortsList PubNav2GoalAction::providedPorts()
 {
   BT::PortsList additional_ports = {
-    BT::InputPort<float>("goal_x", 0.0, "Goal x coordinate"),
-    BT::InputPort<float>("goal_y", 0.0, "Goal y coordinate"),
-    BT::InputPort<float>("goal_yaw", 0.0, "Goal orientation (yaw)"),
+    BT::InputPort<geometry_msgs::msg::PoseStamped>(
+      "goal", "0;0;0", "Expected goal pose that send to nav2. Fill with format `x;y;yaw`"),
   };
   return providedBasicPorts(additional_ports);
 }

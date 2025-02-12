@@ -14,9 +14,7 @@
                     key_port="{@referee_robotStatus}"/>
       </RetryUntilSuccessful>
       <Sequence>
-        <PubNav2Goal goal_x="0.000000"
-                     goal_y="0.000000"
-                     goal_yaw="0.000000"
+        <PubNav2Goal goal="0;0;0"
                      topic_name="goal_pose"/>
         <Sleep msec="500"/>
       </Sequence>
@@ -63,9 +61,7 @@
                     hp_min="350"
                     key_port="{@referee_robotStatus}"/>
         <Sequence>
-          <PubNav2Goal goal_x="3.000000"
-                       goal_y="0.000000"
-                       goal_yaw="0.000000"
+          <PubNav2Goal goal="3;0;0"
                        topic_name="goal_pose"/>
           <Sleep msec="500"/>
         </Sequence>
@@ -156,15 +152,9 @@
                   type="std::string">Topic name</input_port>
     </Action>
     <Condition ID="PubNav2Goal">
-      <input_port name="goal_x"
-                  default="0.000000"
-                  type="float">Goal x coordinate</input_port>
-      <input_port name="goal_y"
-                  default="0.000000"
-                  type="float">Goal y coordinate</input_port>
-      <input_port name="goal_yaw"
-                  default="0.000000"
-                  type="float">Goal orientation (yaw)</input_port>
+      <input_port name="goal"
+                  default="0;0;0"
+                  type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
       <input_port name="topic_name"
                   default="__default__placeholder__"
                   type="std::string">Topic name</input_port>
