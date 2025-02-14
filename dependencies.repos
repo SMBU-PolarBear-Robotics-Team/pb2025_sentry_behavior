@@ -13,5 +13,6 @@ repositories:
     version: protocol-v1.7.0
 
   auto_aim_interfaces:
+    type: git
     url: https://github.com/SMBU-PolarBear-Robotics-Team/auto_aim_interfaces.git
     version: main
