@@ -19,6 +19,7 @@
 
 #include "auto_aim_interfaces/msg/target.hpp"
 #include "behaviortree_cpp/xml_parsing.h"
+#include "nav_msgs/msg/occupancy_grid.hpp"
 #include "pb_rm_interfaces/msg/buff.hpp"
 #include "pb_rm_interfaces/msg/event_data.hpp"
 #include "pb_rm_interfaces/msg/game_robot_hp.hpp"
@@ -26,15 +27,15 @@
 #include "pb_rm_interfaces/msg/ground_robot_position.hpp"
 #include "pb_rm_interfaces/msg/rfid_status.hpp"
 #include "pb_rm_interfaces/msg/robot_status.hpp"
-
 namespace pb2025_sentry_behavior
 {
 
 template <typename T>
-void SentryBehaviorServer::subscribe(const std::string & topic, const std::string & bb_key)
+void SentryBehaviorServer::subscribe(
+  const std::string & topic, const std::string & bb_key, const rclcpp::QoS & qos)
 {
   auto sub = node()->create_subscription<T>(
-    topic, 10,
+    topic, qos,
     [this, bb_key](const typename T::SharedPtr msg) { globalBlackboard()->set(bb_key, *msg); });
   subscriptions_.push_back(sub);
 }
@@ -54,7 +55,12 @@ SentryBehaviorServer::SentryBehaviorServer(const rclcpp::NodeOptions & options)
   subscribe<pb_rm_interfaces::msg::RobotStatus>("referee/robot_status", "referee_robotStatus");
   subscribe<pb_rm_interfaces::msg::Buff>("referee/buff", "referee_buff");
 
-  subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "tracker_target");
+  auto tracker_qos = rclcpp::SensorDataQoS();
+  subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "tracker_target", tracker_qos);
+
+  auto costmap_qos = rclcpp::QoS(rclcpp::KeepLast(1)).transient_local().reliable();
+  subscribe<nav_msgs::msg::OccupancyGrid>(
+    "global_costmap/costmap", "nav_globalCostmap", costmap_qos);
 }
 
 bool SentryBehaviorServer::onGoalReceived(
