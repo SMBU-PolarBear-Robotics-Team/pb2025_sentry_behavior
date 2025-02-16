@@ -17,6 +17,7 @@
 #include <filesystem>
 #include <fstream>
 
+#include "auto_aim_interfaces/msg/armors.hpp"
 #include "auto_aim_interfaces/msg/target.hpp"
 #include "behaviortree_cpp/xml_parsing.h"
 #include "nav_msgs/msg/occupancy_grid.hpp"
@@ -55,6 +56,8 @@ SentryBehaviorServer::SentryBehaviorServer(const rclcpp::NodeOptions & options)
   subscribe<pb_rm_interfaces::msg::RobotStatus>("referee/robot_status", "referee_robotStatus");
   subscribe<pb_rm_interfaces::msg::Buff>("referee/buff", "referee_buff");
 
+  auto detector_qos = rclcpp::SensorDataQoS();
+  subscribe<auto_aim_interfaces::msg::Armors>("detector/armors", "detector_armors", detector_qos);
   auto tracker_qos = rclcpp::SensorDataQoS();
   subscribe<auto_aim_interfaces::msg::Target>("tracker/target", "tracker_target", tracker_qos);
 
