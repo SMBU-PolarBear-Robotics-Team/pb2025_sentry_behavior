@@ -3,6 +3,12 @@
     <include path="dev_rm.xml"/>
     <!-- Description of Node Models (used by Groot) -->
     <TreeNodesModel>
+        <Condition ID="CalculateAttackPose">
+            <input_port name="costmap_port" default="{@nav_globalCostmap}" type="nav_msgs::msg::OccupancyGrid_&lt;std::allocator&lt;void&gt; &gt;">GlobalCostmap port on blackboard</input_port>
+            <input_port name="tracker_port" default="{@tracker_target}" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
+            <output_port name="goal" default="{attack_pose}" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</output_port>
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+        </Condition>
         <Condition ID="IsAttacked">
             <output_port name="gimbal_yaw" default="{gimbal_yaw}" type="float">Move gimbal_yaw to the direction of the hit armor plate</output_port>
             <output_port name="gimbal_pitch" default="{gimbal_pitch}" type="float">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
@@ -11,7 +17,7 @@
         <Condition ID="IsDetectEnemy">
             <input_port name="armor_id" default="1;2;3;4;5;7" type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;">Expected id of armors. Multiple numbers should be separated by the character `;` in Groot2</input_port>
             <input_port name="max_distance" default="8.000000" type="float">Distance to enemy target</input_port>
-            <input_port name="key_port" default="{@tracker_target}" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
+            <input_port name="key_port" default="{@detector_armors}" type="auto_aim_interfaces::msg::Armors_&lt;std::allocator&lt;void&gt; &gt;">Vision detector port on blackboard</input_port>
         </Condition>
         <Condition ID="IsGameStatus">
             <input_port name="max_remain_time" default="420" type="int">Maximum remaining time (s)</input_port>

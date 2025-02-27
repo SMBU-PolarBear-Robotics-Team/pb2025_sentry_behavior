@@ -64,6 +64,9 @@ list(APPEND plugin_libs pub_twist)
 ament_auto_add_library(pub_joint_state SHARED plugins/action/pub_joint_state.cpp)
 list(APPEND plugin_libs pub_joint_state)
 
+ament_auto_add_library(calculate_attack_pose SHARED plugins/action/calculate_attack_pose.cpp)
+list(APPEND plugin_libs calculate_attack_pose)
+
 ####### Controls #######
 ament_auto_add_library(recovery_node SHARED plugins/control/recovery_node.cpp)
 list(APPEND plugin_libs recovery_node)

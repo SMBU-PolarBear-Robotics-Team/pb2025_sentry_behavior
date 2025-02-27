@@ -1,5 +1,11 @@
 <root BTCPP_format="4">
     <TreeNodesModel>
+        <Condition ID="CalculateAttackPose">
+            <input_port name="costmap_port" type="nav_msgs::msg::OccupancyGrid_&lt;std::allocator&lt;void&gt; &gt;" default="{@nav_globalCostmap}">GlobalCostmap port on blackboard</input_port>
+            <input_port name="tracker_port" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;" default="{@tracker_target}">Vision target port on blackboard</input_port>
+            <output_port name="goal" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;" default="{attack_pose}">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</output_port>
+            <input_port name="topic_name" type="std::string" default="__default__placeholder__">Topic name</input_port>
+        </Condition>
         <Condition ID="IsAttacked">
             <output_port name="gimbal_yaw" type="float" default="{gimbal_yaw}">Move gimbal_yaw to the direction of the hit armor plate</output_port>
             <output_port name="gimbal_pitch" type="float" default="{gimbal_pitch}">Move gimbal_pitch (const 0.0) to the direction of the hit armor plate</output_port>
@@ -8,7 +14,7 @@
         <Condition ID="IsDetectEnemy">
             <input_port name="armor_id" type="std::vector&lt;int, std::allocator&lt;int&gt; &gt;" default="1;2;3;4;5;7">Expected id of armors. Multiple numbers should be separated by the character `;` in Groot2</input_port>
             <input_port name="max_distance" type="float" default="8.000000">Distance to enemy target</input_port>
-            <input_port name="key_port" type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;" default="{@tracker_target}">Vision target port on blackboard</input_port>
+            <input_port name="key_port" type="auto_aim_interfaces::msg::Armors_&lt;std::allocator&lt;void&gt; &gt;" default="{@detector_armors}">Vision detector port on blackboard</input_port>
         </Condition>
         <Condition ID="IsGameStatus">
             <input_port name="max_remain_time" type="int" default="420">Maximum remaining time (s)</input_port>

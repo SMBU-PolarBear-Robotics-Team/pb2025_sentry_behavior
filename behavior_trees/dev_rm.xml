@@ -21,6 +21,21 @@
     </WhileDoElse>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_attack_pose">
+    <KeepRunningUntilFailure>
+      <ForceSuccess>
+        <Sequence>
+          <CalculateAttackPose costmap_port="{@nav_globalCostmap}"
+                               tracker_port="{@tracker_target}"
+                               goal="{attack_pose}"
+                               topic_name="debug_attack_pose"/>
+          <PubNav2Goal goal="{attack_pose}"
+                       topic_name="goal_pose"/>
+        </Sequence>
+      </ForceSuccess>
+    </KeepRunningUntilFailure>
+  </BehaviorTree>
+
   <BehaviorTree ID="test_attacked_feedback">
     <KeepRunningUntilFailure>
       <WhileDoElse>
@@ -72,9 +87,11 @@
 
   <BehaviorTree ID="test_is_detect_enemy">
     <ReactiveFallback>
-      <IsDetectEnemy armor_id="1;2;3;4;5;7"
-                     max_distance="8.0"
-                     key_port="{@tracker_target}"/>
+      <Inverter>
+        <IsDetectEnemy armor_id="1;2;3;4;5;7"
+                       max_distance="8.0"
+                       key_port="{@detector_armors}"/>
+      </Inverter>
       <PublishTwist v_y="0.0"
                     v_yaw="6.28"
                     v_x="0.0"
@@ -85,6 +102,20 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
+    <Condition ID="CalculateAttackPose">
+      <input_port name="costmap_port"
+                  default="{@nav_globalCostmap}"
+                  type="nav_msgs::msg::OccupancyGrid_&lt;std::allocator&lt;void&gt; &gt;">GlobalCostmap port on blackboard</input_port>
+      <input_port name="tracker_port"
+                  default="{@tracker_target}"
+                  type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
+      <output_port name="goal"
+                   default="{attack_pose}"
+                   type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</output_port>
+      <input_port name="topic_name"
+                  default="__default__placeholder__"
+                  type="std::string">Topic name</input_port>
+    </Condition>
     <Condition ID="IsAttacked">
       <output_port name="gimbal_yaw"
                    default="{gimbal_yaw}"
@@ -104,8 +135,8 @@
                   default="8.000000"
                   type="float">Distance to enemy target</input_port>
       <input_port name="key_port"
-                  default="{@tracker_target}"
-                  type="auto_aim_interfaces::msg::Target_&lt;std::allocator&lt;void&gt; &gt;">Vision target port on blackboard</input_port>
+                  default="{@detector_armors}"
+                  type="auto_aim_interfaces::msg::Armors_&lt;std::allocator&lt;void&gt; &gt;">Vision detector port on blackboard</input_port>
     </Condition>
     <Condition ID="IsRfidDetected">
       <input_port name="friendly_supply_zone_exchange"

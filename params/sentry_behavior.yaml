@@ -5,7 +5,7 @@ pb2025_sentry_behavior_server:
     tick_frequency: 10                          # Optional (defaults to 100 Hz)
     groot2_port: 1667                           # Optional (defaults to 1667)
     ros_plugins_timeout: 1000                   # Optional (defaults 1000 ms)
-    use_cout_logger: False                      # Optional (defaults to False)
+    use_cout_logger: false                      # Optional (defaults to false)
 
     plugins:
       - pb2025_sentry_behavior/bt_plugins
@@ -13,7 +13,14 @@ pb2025_sentry_behavior_server:
     behavior_trees:
       - pb2025_sentry_behavior/behavior_trees
 
+    CalculateAttackPose:
+      attack_radius: 2.0                        # 攻击半径（米）
+      num_sectors: 36                           # 扇区划分数量
+      cost_threshold: 50                        # 栅格的占用概率，大于该值将被视为障碍物 [0, 100]
+      robot_base_frame: chassis
+      visualize: true
+
 pb2025_sentry_behavior_client:
   ros__parameters:
     use_sim_time: true
-    target_tree: test_is_detect_enemy
+    target_tree: test_attack_pose
