@@ -61,8 +61,11 @@ list(APPEND plugin_libs pub_nav2_goal)
 ament_auto_add_library(pub_twist SHARED plugins/action/pub_twist.cpp)
 list(APPEND plugin_libs pub_twist)
 
-ament_auto_add_library(pub_joint_state SHARED plugins/action/pub_joint_state.cpp)
-list(APPEND plugin_libs pub_joint_state)
+ament_auto_add_library(pub_gimbal_absolute SHARED plugins/action/pub_gimbal_absolute.cpp)
+list(APPEND plugin_libs pub_gimbal_absolute)
+
+ament_auto_add_library(pub_gimbal_velocity SHARED plugins/action/pub_gimbal_velocity.cpp)
+list(APPEND plugin_libs pub_gimbal_velocity)
 
 ament_auto_add_library(calculate_attack_pose SHARED plugins/action/calculate_attack_pose.cpp)
 list(APPEND plugin_libs calculate_attack_pose)

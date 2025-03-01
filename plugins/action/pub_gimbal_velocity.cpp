@@ -12,53 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "pb2025_sentry_behavior/plugins/action/pub_joint_state.hpp"
+#include "pb2025_sentry_behavior/plugins/action/pub_gimbal_velocity.hpp"
 
 namespace pb2025_sentry_behavior
 {
 
-PublishJointStateAbsolute::PublishJointStateAbsolute(
-  const std::string & name, const BT::NodeConfig & config)
-: RosTopicPubStatefulActionNode(name, config, BT::RosNodeParams())
+PublishGimbalVelocity::PublishGimbalVelocity(
+  const std::string & name, const BT::NodeConfig & config, const BT::RosNodeParams & params)
+: RosTopicPubStatefulActionNode(name, config, params)
 {
 }
 
-BT::PortsList PublishJointStateAbsolute::providedPorts()
-{
-  return {
-    BT::InputPort<float>("gimbal_pitch", "Expected Pitch angle (rad)"),
-    BT::InputPort<float>("gimbal_yaw", "Expected Yaw angle (rad)"),
-    BT::InputPort<std::chrono::milliseconds>("duration", "Publish duration"),
-    BT::InputPort<std::string>("topic_name", "__default__placeholder__", "Topic name")};
-}
-
-bool PublishJointStateAbsolute::setMessage(pb_rm_interfaces::msg::GimbalCmd & msg)
-{
-  msg.header.stamp = node_->now();
-  msg.header.frame_id = "gimbal";
-  msg.yaw_type = pb_rm_interfaces::msg::GimbalCmd::ABSOLUTE_ANGLE;
-  msg.pitch_type = pb_rm_interfaces::msg::GimbalCmd::ABSOLUTE_ANGLE;
-
-  float pitch, yaw;
-  if (!getInput("gimbal_pitch", pitch) || !getInput("gimbal_yaw", yaw)) {
-    RCLCPP_ERROR(node_->get_logger(), "Missing angle parameters");
-    return false;
-  }
-
-  msg.position.pitch = pitch;
-  msg.position.yaw = yaw;
-  msg.velocity = pb_rm_interfaces::msg::Gimbal();
-
-  return true;
-}
-
-PublishJointStateVelocity::PublishJointStateVelocity(
-  const std::string & name, const BT::NodeConfig & config)
-: RosTopicPubStatefulActionNode(name, config, BT::RosNodeParams())
-{
-}
-
-BT::PortsList PublishJointStateVelocity::providedPorts()
+BT::PortsList PublishGimbalVelocity::providedPorts()
 {
   return {
     BT::InputPort<float>("gimbal_vel_pitch", 0.0f, "Pitch velocity (rad/s)"),
@@ -71,10 +36,9 @@ BT::PortsList PublishJointStateVelocity::providedPorts()
     BT::InputPort<std::string>("topic_name", "__default__placeholder__", "Topic name")};
 }
 
-bool PublishJointStateVelocity::setMessage(pb_rm_interfaces::msg::GimbalCmd & msg)
+bool PublishGimbalVelocity::setMessage(pb_rm_interfaces::msg::GimbalCmd & msg)
 {
   msg.header.stamp = node_->now();
-  msg.header.frame_id = "gimbal";
   msg.yaw_type = pb_rm_interfaces::msg::GimbalCmd::VELOCITY;
   msg.pitch_type = pb_rm_interfaces::msg::GimbalCmd::VELOCITY;
 
@@ -114,16 +78,4 @@ bool PublishJointStateVelocity::setMessage(pb_rm_interfaces::msg::GimbalCmd & ms
 }  // namespace pb2025_sentry_behavior
 
 #include "behaviortree_ros2/plugins.hpp"
-CreateRosNodePlugin(pb2025_sentry_behavior::PublishJointStateAbsolute, "PublishJointStateAbsolute");
-CreateRosNodePlugin(pb2025_sentry_behavior::PublishJointStateVelocity, "PublishJointStateVelocity");
-
-// #include <pluginlib/class_list_macros.hpp>
-// // 使用标准宏注册插件
-// PLUGINLIB_EXPORT_CLASS(
-//   pb2025_sentry_behavior::PublishJointStateAbsolute,
-//   bt::RosActionNode
-// );
-// PLUGINLIB_EXPORT_CLASS(
-//   pb2025_sentry_behavior::PublishJointStateVelocity,
-//   bt::RosActionNode
-// );
+CreateRosNodePlugin(pb2025_sentry_behavior::PublishGimbalVelocity, "PublishGimbalVelocity");

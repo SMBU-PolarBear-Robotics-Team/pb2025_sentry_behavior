@@ -48,6 +48,22 @@
             <input_port name="goal" default="0;0;0" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
         </Condition>
+        <Action ID="PublishGimbalAbsolute">
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+            <input_port name="duration" type="std::chrono::milliseconds">Publish duration</input_port>
+            <input_port name="gimbal_yaw" type="float">Expected Yaw angle (rad)</input_port>
+            <input_port name="gimbal_pitch" type="float">Expected Pitch angle (rad)</input_port>
+        </Action>
+        <Action ID="PublishGimbalVelocity">
+            <input_port name="duration" type="std::chrono::milliseconds">Publish duration</input_port>
+            <input_port name="yaw_min" default="-3.140000" type="float">Minimum yaw range</input_port>
+            <input_port name="pitch_min" default="-1.570000" type="float">Minimum pitch range</input_port>
+            <input_port name="yaw_max" default="3.140000" type="float">Maximum yaw range</input_port>
+            <input_port name="pitch_max" default="1.570000" type="float">Maximum pitch range</input_port>
+            <input_port name="gimbal_vel_yaw" default="0.000000" type="float">Yaw velocity (rad/s)</input_port>
+            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
+            <input_port name="gimbal_vel_pitch" default="0.000000" type="float">Pitch velocity (rad/s)</input_port>
+        </Action>
         <Action ID="PublishTwist">
             <input_port name="v_y" default="0.000000" type="double">Linear Y velocity (m/s)</input_port>
             <input_port name="v_yaw" default="0.000000" type="double">Angular Z velocity (rad/s)</input_port>

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_JOINT_STATE_HPP_
-#define PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_JOINT_STATE_HPP_
+#ifndef PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_GIMBAL_VELOCITY_HPP_
+#define PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_GIMBAL_VELOCITY_HPP_
 
 #include <string>
 
@@ -23,40 +23,19 @@
 namespace pb2025_sentry_behavior
 {
 
-// 动作节点：PublishJointStateAbsolute
-class PublishJointStateAbsolute
+class PublishGimbalVelocity
 : public BT::RosTopicPubStatefulActionNode<pb_rm_interfaces::msg::GimbalCmd>
 {
 public:
-  PublishJointStateAbsolute(
+  PublishGimbalVelocity(
     const std::string & name, const BT::NodeConfig & config, const BT::RosNodeParams & params);
-
-  PublishJointStateAbsolute(const std::string & name, const BT::NodeConfig & config);
 
   static BT::PortsList providedPorts();
 
 protected:
   bool setMessage(pb_rm_interfaces::msg::GimbalCmd & msg) override;
-  bool setHaltMessage(pb_rm_interfaces::msg::GimbalCmd & msg) override;
-};
-
-// 动作节点：PublishJointStateVelocity
-class PublishJointStateVelocity
-: public BT::RosTopicPubStatefulActionNode<pb_rm_interfaces::msg::GimbalCmd>
-{
-public:
-  PublishJointStateVelocity(
-    const std::string & name, const BT::NodeConfig & config, const BT::RosNodeParams & params);
-
-  PublishJointStateVelocity(const std::string & name, const BT::NodeConfig & config);
-
-  static BT::PortsList providedPorts();
-
-protected:
-  bool setMessage(pb_rm_interfaces::msg::GimbalCmd & msg) override;
-  bool setHaltMessage(pb_rm_interfaces::msg::GimbalCmd & msg) override;
 };
 
 }  // namespace pb2025_sentry_behavior
 
-#endif  // PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_JOINT_STATE_HPP_
+#endif  // PB2025_SENTRY_BEHAVIOR__PLUGINS__ACTION__PUB_GIMBAL_VELOCITY_HPP_

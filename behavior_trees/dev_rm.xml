@@ -43,10 +43,10 @@
                     gimbal_pitch="{gimbal_pitch}"
                     key_port="{@referee_robotStatus}"/>
         <Sequence>
-          <PubJointState gimbal_pitch="{gimbal_pitch}"
-                         gimbal_yaw="{gimbal_yaw}"
-                         duration="500"
-                         topic_name="cmd_gimbal_joint"/>
+          <PublishGimbalAbsolute topic_name="cmd_gimbal"
+                                 duration="500"
+                                 gimbal_yaw="{gimbal_yaw}"
+                                 gimbal_pitch="{gimbal_pitch}"/>
           <PublishTwist v_y="0.0"
                         v_yaw="3.14"
                         v_x="0.0"
@@ -66,6 +66,17 @@
         <AlwaysSuccess/>
       </WhileDoElse>
     </KeepRunningUntilFailure>
+  </BehaviorTree>
+
+  <BehaviorTree ID="test_gimbal_velocity">
+    <PublishGimbalVelocity duration="5.0"
+                           yaw_min="-1.57"
+                           pitch_min="-0.5"
+                           yaw_max="1.57"
+                           pitch_max="0.5"
+                           gimbal_vel_yaw="1.5"
+                           topic_name="cmd_gimbal"
+                           gimbal_vel_pitch="1.0"/>
   </BehaviorTree>
 
   <BehaviorTree ID="test_go_to_supply">
@@ -169,19 +180,6 @@
                   default="{@referee_robotStatus}"
                   type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
     </Condition>
-    <Action ID="PubJointState">
-      <input_port name="gimbal_pitch"
-                  default="{gimbal_pitch}"
-                  type="float">Expected Pitch angle (rad) of the gimbal</input_port>
-      <input_port name="gimbal_yaw"
-                  default="{gimbal_yaw}"
-                  type="float">Expected Yaw angle (rad) of the gimbal</input_port>
-      <input_port name="duration"
-                  type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
-      <input_port name="topic_name"
-                  default="__default__placeholder__"
-                  type="std::string">Topic name</input_port>
-    </Action>
     <Condition ID="PubNav2Goal">
       <input_port name="goal"
                   default="0;0;0"
@@ -190,6 +188,42 @@
                   default="__default__placeholder__"
                   type="std::string">Topic name</input_port>
     </Condition>
+    <Action ID="PublishGimbalAbsolute">
+      <input_port name="topic_name"
+                  default="__default__placeholder__"
+                  type="std::string">Topic name</input_port>
+      <input_port name="duration"
+                  type="std::chrono::milliseconds">Publish duration</input_port>
+      <input_port name="gimbal_yaw"
+                  type="float">Expected Yaw angle (rad)</input_port>
+      <input_port name="gimbal_pitch"
+                  type="float">Expected Pitch angle (rad)</input_port>
+    </Action>
+    <Action ID="PublishGimbalVelocity">
+      <input_port name="duration"
+                  type="std::chrono::milliseconds">Publish duration</input_port>
+      <input_port name="yaw_min"
+                  default="-3.140000"
+                  type="float">Minimum yaw range</input_port>
+      <input_port name="pitch_min"
+                  default="-1.570000"
+                  type="float">Minimum pitch range</input_port>
+      <input_port name="yaw_max"
+                  default="3.140000"
+                  type="float">Maximum yaw range</input_port>
+      <input_port name="pitch_max"
+                  default="1.570000"
+                  type="float">Maximum pitch range</input_port>
+      <input_port name="gimbal_vel_yaw"
+                  default="0.000000"
+                  type="float">Yaw velocity (rad/s)</input_port>
+      <input_port name="topic_name"
+                  default="__default__placeholder__"
+                  type="std::string">Topic name</input_port>
+      <input_port name="gimbal_vel_pitch"
+                  default="0.000000"
+                  type="float">Pitch velocity (rad/s)</input_port>
+    </Action>
     <Action ID="PublishTwist">
       <input_port name="v_y"
                   default="0.000000"
