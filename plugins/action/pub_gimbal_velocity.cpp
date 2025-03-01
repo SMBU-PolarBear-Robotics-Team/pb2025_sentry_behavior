@@ -70,8 +70,6 @@ bool PublishGimbalVelocity::setMessage(pb_rm_interfaces::msg::GimbalCmd & msg)
   msg.velocity.yaw_min_range = yaw_min;
   msg.velocity.yaw_max_range = yaw_max;
 
-  msg.position = pb_rm_interfaces::msg::GimbalPosition();
-
   return true;
 }
 

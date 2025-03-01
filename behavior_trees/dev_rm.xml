@@ -68,6 +68,13 @@
     </KeepRunningUntilFailure>
   </BehaviorTree>
 
+  <BehaviorTree ID="test_gimbal_absolute">
+    <PublishGimbalAbsolute topic_name="cmd_gimbal"
+                           duration="5.0"
+                           gimbal_yaw="-1.57"
+                           gimbal_pitch="1.0"/>
+  </BehaviorTree>
+
   <BehaviorTree ID="test_gimbal_velocity">
     <PublishGimbalVelocity duration="5.0"
                            yaw_min="-1.57"
