@@ -78,9 +78,9 @@
   <BehaviorTree ID="test_gimbal_velocity">
     <PublishGimbalVelocity duration="5.0"
                            yaw_min="-1.57"
-                           pitch_min="-0.5"
+                           pitch_min="-0.3"
                            yaw_max="1.57"
-                           pitch_max="0.5"
+                           pitch_max="0.3"
                            gimbal_vel_yaw="1.5"
                            topic_name="cmd_gimbal"
                            gimbal_vel_pitch="1.0"/>

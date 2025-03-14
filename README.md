@@ -91,10 +91,6 @@ Parameters:
 5. **createAttackPose**：创建攻击姿态。
 6. **createVisualizationMarkers**：创建可视化标记。
 
-#### PubJointState
-
-以 `sensor_msgs/msg/JointState` 的形式发布关节状态，用于控制云台角度。
-
 #### PubTwist
 
 以 `geometry_msgs/msg/Twist` 的形式发布速度，用于控制底盘运动。

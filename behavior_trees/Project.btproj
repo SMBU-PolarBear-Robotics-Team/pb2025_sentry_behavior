@@ -38,12 +38,6 @@
             <input_port name="hp_min" default="300" type="int">Minimum HP. NOTE: Sentry init/max HP is 400</input_port>
             <input_port name="key_port" default="{@referee_robotStatus}" type="pb_rm_interfaces::msg::RobotStatus_&lt;std::allocator&lt;void&gt; &gt;">RobotStatus port on blackboard</input_port>
         </Condition>
-        <Action ID="PubJointState">
-            <input_port name="gimbal_pitch" default="{gimbal_pitch}" type="float">Expected Pitch angle (rad) of the gimbal</input_port>
-            <input_port name="gimbal_yaw" default="{gimbal_yaw}" type="float">Expected Yaw angle (rad) of the gimbal</input_port>
-            <input_port name="duration" type="std::chrono::milliseconds">Publish then sleep duration in milliseconds</input_port>
-            <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
-        </Action>
         <Condition ID="PubNav2Goal">
             <input_port name="goal" default="0;0;0" type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
             <input_port name="topic_name" default="__default__placeholder__" type="std::string">Topic name</input_port>
