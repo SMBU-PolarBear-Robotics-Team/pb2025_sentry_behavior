@@ -58,6 +58,9 @@ list(APPEND plugin_libs send_nav2_goal)
 ament_auto_add_library(pub_nav2_goal SHARED plugins/action/pub_nav2_goal.cpp)
 list(APPEND plugin_libs pub_nav2_goal)
 
+ament_auto_add_library(pub_spin_speed SHARED plugins/action/pub_spin_speed.cpp)
+list(APPEND plugin_libs pub_spin_speed)
+
 ament_auto_add_library(pub_twist SHARED plugins/action/pub_twist.cpp)
 list(APPEND plugin_libs pub_twist)
 
