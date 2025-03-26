@@ -14,8 +14,8 @@
                     key_port="{@referee_robotStatus}"/>
       </RetryUntilSuccessful>
       <Sequence>
-        <PubNav2Goal goal="0;0;0"
-                     topic_name="goal_pose"/>
+        <SendNav2Goal goal="0;0;0"
+                      action_name="navigate_to_pose"/>
         <Sleep msec="500"/>
       </Sequence>
     </WhileDoElse>
@@ -94,8 +94,8 @@
                     hp_min="350"
                     key_port="{@referee_robotStatus}"/>
         <Sequence>
-          <PubNav2Goal goal="3;0;0"
-                       topic_name="goal_pose"/>
+          <SendNav2Goal goal="3;0;0"
+                        action_name="navigate_to_pose"/>
           <Sleep msec="500"/>
         </Sequence>
         <SubTree ID="rmul_supply"/>
@@ -246,6 +246,13 @@
       <input_port name="topic_name"
                   default="__default__placeholder__"
                   type="std::string">Topic name</input_port>
+    </Action>
+    <Action ID="SendNav2Goal">
+      <input_port name="goal"
+                  default="0;0;0"
+                  type="geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt;">Expected goal pose that send to nav2. Fill with format `x;y;yaw`</input_port>
+      <input_port name="action_name"
+                  type="std::string">Action server name</input_port>
     </Action>
   </TreeNodesModel>
 

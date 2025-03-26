@@ -55,6 +55,11 @@
             <input_port name="topic_name" type="std::string" default="__default__placeholder__">Topic name</input_port>
             <input_port name="gimbal_vel_pitch" type="float" default="0.000000">Pitch velocity (rad/s)</input_port>
         </Action>
+        <Action ID="PublishSpinSpeed">
+            <input_port name="spin_speed" type="double" default="0.000000">Angular Z velocity (rad/s)</input_port>
+            <input_port name="duration" type="std::chrono::milliseconds" default="">Publish then sleep duration in milliseconds</input_port>
+            <input_port name="topic_name" type="std::string" default="__default__placeholder__">Topic name</input_port>
+        </Action>
         <Action ID="PublishTwist">
             <input_port name="v_y" type="double" default="0.000000">Linear Y velocity (m/s)</input_port>
             <input_port name="v_yaw" type="double" default="0.000000">Angular Z velocity (rad/s)</input_port>

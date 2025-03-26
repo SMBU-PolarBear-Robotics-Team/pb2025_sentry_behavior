@@ -2,7 +2,7 @@ pb2025_sentry_behavior_server:
   ros__parameters:
     use_sim_time: true
     action_name: pb2025_sentry_behavior         # Optional
-    tick_frequency: 10                          # Optional (defaults to 100 Hz)
+    tick_frequency: 5                          # Optional (defaults to 100 Hz)
     groot2_port: 1667                           # Optional (defaults to 1667)
     ros_plugins_timeout: 1000                   # Optional (defaults 1000 ms)
     use_cout_logger: false                      # Optional (defaults to false)
@@ -23,4 +23,4 @@ pb2025_sentry_behavior_server:
 pb2025_sentry_behavior_client:
   ros__parameters:
     use_sim_time: true
-    target_tree: test_gimbal_velocity
+    target_tree: rmul_2025
